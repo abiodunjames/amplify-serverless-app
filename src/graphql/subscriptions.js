@@ -6,7 +6,7 @@ export const onCreateTodo = /* GraphQL */ `
     onCreateTodo {
       id
       name
-      description
+      done
       createdAt
       updatedAt
     }
@@ -17,7 +17,7 @@ export const onUpdateTodo = /* GraphQL */ `
     onUpdateTodo {
       id
       name
-      description
+      done
       createdAt
       updatedAt
     }
@@ -28,7 +28,7 @@ export const onDeleteTodo = /* GraphQL */ `
     onDeleteTodo {
       id
       name
-      description
+      done
       createdAt
       updatedAt
     }

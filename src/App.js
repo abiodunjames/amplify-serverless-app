@@ -53,41 +53,42 @@ function App() {
 		} else {
 			newTodo.done = true;
 		}
-    await API.graphql(graphqlOperation(updateTodo, { input: newTodo }));
-    
+		await API.graphql(graphqlOperation(updateTodo, { input: newTodo }));
 	};
 
 	return (
 		<div className="App">
 			<div className="heading">
 				<h1>Amplify Todo</h1>
-				<AmplifySignOut />
+				<div className="sign-out">
+					<AmplifySignOut />
+				</div>
 			</div>
 			<form className="add-todo-form" onSubmit={submitAddTodo}>
-				<input placeholder="Enter todo title " onChange={changeTodoName} />
-				<button type="submit">Create todo</button>
+				<input placeholder="Add Todo" onChange={changeTodoName} />
+				<button type="submit">+</button>
 			</form>
-			<section className="todo-section">
-				<h2>All Todos</h2>
-				{allTodos === null ? (
-					<p>Loading Todos...</p>
-				) : allTodos.length === 0 ? (
-					<p>No Todo available</p>
-				) : (
-					allTodos.reverse().map(({ id, name, done }) => (
+			{allTodos === null ? (
+				<p>Loading Todos...</p>
+			) : allTodos.length === 0 ? (
+				<p>No Todo available</p>
+			) : (
+				<div className='todos'>
+					{allTodos.reverse().map(({ id, name, done }) => (
 						<div className="todo-block" key={id}>
 							<input
 								onClick={() => toggleTodo(id)}
 								type="checkbox"
+								id={id}
 								value={id}
 								key={id}
 								defaultChecked={done}
 							/>
-							<label>{name}</label>
+							<label htmlFor={id}>{name}</label>
 						</div>
-					))
-				)}
-			</section>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
