@@ -7,38 +7,33 @@
 
 .App {
 	text-align: center;
-  width: 400px;
-  margin: 0 auto;
+	width: 400px;
+	margin: 0 auto;
 }
 
 .heading {
 	display: flex;
 	justify-content: space-between;
-  align-items: center;
-  margin: 30px 0;
+	align-items: center;
+	margin: 30px 0;
 }
 
 .heading h1 {
-  color: purple;
-  margin: 0;
+	color: purple;
+	margin: 0;
 }
 
 .add-todo-form {
 	margin: 0 auto;
 }
 
-.add-todo-form input,
-.add-todo-form textarea {
+.add-todo-form input {
 	display: block;
 	width: 100%;
 	padding: 10px;
 	font-family: initial;
 	border: 1px solid #ddd;
 	margin-bottom: 10px;
-}
-
-.add-todo-form textarea {
-	min-height: 50px;
 }
 
 .add-todo-form button {
@@ -61,18 +56,17 @@
 	border-radius: 5px;
 	margin-bottom: 10px;
 	text-align: left;
-	padding: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.todo-block h3 {
-	font-size: 16px;
+.todo-block label {
+  width: 100%;
+  margin-left: 10px;
+  margin-top: 2px;
 }
 
-.todo-block h3,
-.todo-block p {
-	margin: 10px 0;
-}
-
-.todo-block p {
-	font-size: 14px;
+.todo-block input:checked ~ label {
+  text-decoration: line-through;
 }

@@ -5,7 +5,7 @@ import "./App.css";
 
 import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 
-import { createTodo } from "./graphql/mutations";
+import { createTodo, updateTodo } from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -23,7 +23,6 @@ function App() {
 	}, []);
 
 	const [name, setTodoName] = useState("");
-	const [description, setTodoDesc] = useState("");
 
 	const changeTodoName = (e) => {
 		const {
@@ -32,21 +31,12 @@ function App() {
 		setTodoName(value);
 	};
 
-	const changeTodoDesc = (e) => {
-		const {
-			target: { value },
-		} = e;
-		setTodoDesc(value);
-	};
-
 	const submitAddTodo = async (e) => {
 		e.preventDefault();
-		if (name === "" || description === "")
-			return alert("Input fields cannot be empty");
+		if (name === "") return alert("Input field cannot be empty");
 		setTodoName("");
-		setTodoDesc("");
 
-		const todo = { name, description };
+		const todo = { name, done: false };
 		await API.graphql(graphqlOperation(createTodo, { input: todo }));
 		if (allTodos === null) {
 			setAlltodos([todo]);
@@ -55,18 +45,26 @@ function App() {
 		}
 	};
 
+	const toggleTodo = async (id) => {
+		const todo = allTodos.find(({ id: _id }) => _id === id);
+		let newTodo = { id, name: todo.name };
+		if (todo.done) {
+			newTodo.done = false;
+		} else {
+			newTodo.done = true;
+		}
+    await API.graphql(graphqlOperation(updateTodo, { input: newTodo }));
+    
+	};
+
 	return (
 		<div className="App">
 			<div className="heading">
 				<h1>Amplify Todo</h1>
-        <AmplifySignOut />
+				<AmplifySignOut />
 			</div>
 			<form className="add-todo-form" onSubmit={submitAddTodo}>
 				<input placeholder="Enter todo title " onChange={changeTodoName} />
-				<textarea
-					placeholder="Enter todo description "
-					onChange={changeTodoDesc}
-				/>
 				<button type="submit">Create todo</button>
 			</form>
 			<section className="todo-section">
@@ -76,10 +74,16 @@ function App() {
 				) : allTodos.length === 0 ? (
 					<p>No Todo available</p>
 				) : (
-					allTodos.reverse().map(({ id, name, description }) => (
+					allTodos.reverse().map(({ id, name, done }) => (
 						<div className="todo-block" key={id}>
-							<h3>{name}</h3>
-							<p>{description}</p>
+							<input
+								onClick={() => toggleTodo(id)}
+								type="checkbox"
+								value={id}
+								key={id}
+								defaultChecked={done}
+							/>
+							<label>{name}</label>
 						</div>
 					))
 				)}
