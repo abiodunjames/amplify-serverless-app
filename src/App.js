@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
-
 import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
-
 import { createTodo, updateTodo } from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
-
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import awsExports from "./aws-exports";
+
 Amplify.configure(awsExports);
 
 function App() {
@@ -31,9 +29,9 @@ function App() {
   const submitAddTodo = async (e) => {
     e.preventDefault();
     if (name === "") return alert("Input field cannot be empty");
-	const todo = { name, done: false };
-	await API.graphql(graphqlOperation(createTodo, { input: todo }));
-	allTodos === null ? setAlltodos([todo]) : setAlltodos([todo, ...allTodos]);
+    const todo = { name, done: false };
+    await API.graphql(graphqlOperation(createTodo, { input: todo }));
+    allTodos === null ? setAlltodos([todo]) : setAlltodos([todo, ...allTodos]);
   };
 
   const toggleTodo = async (id) => {
@@ -52,10 +50,7 @@ function App() {
         </div>
       </div>
       <form className="add-todo-form" onSubmit={submitAddTodo}>
-        <input
-          placeholder="Add Todo"
-          onChange={changeTodoName}
-        />
+        <input placeholder="Add Todo" onChange={changeTodoName} />
         <button type="submit">+</button>
       </form>
       {allTodos === null ? (
@@ -64,7 +59,7 @@ function App() {
         <p>No Todo available</p>
       ) : (
         <div className="todos">
-          {allTodos.reverse().map(({ id, name, done },i) => (
+          {allTodos.reverse().map(({ id, name, done }, i) => (
             <div className="todo-block" key={i}>
               <input
                 onClick={() => toggleTodo(id)}
