@@ -1,4 +1,5 @@
 # Serverless Todo App
+_This is the source code for a blogpost written on [thundra.io](https://blog.thundra.io/)_
 ## How to run
 
 - Install amplify package: `npm install -g @aws-amplify/cliclear`
